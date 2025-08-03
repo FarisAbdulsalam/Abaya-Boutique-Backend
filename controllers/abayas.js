@@ -1,12 +1,12 @@
-const Pet = require('../models/pet.js');
+const Pet = require('../models/abaya.js');
 const express = require('express');
 const router = express.Router();
 
-// CREATE - POST - /pets
+// CREATE - POST - /abaya
 router.post('/', async (req, res) => {
   try {
-    const createdPet = await Pet.create(req.body);
-    res.status(201).json(createdPet);
+    const createdAbaya = await Abaya.create(req.body);
+    res.status(201).json(createdAbaya);
   } catch (err) {
     res.status(500).json({ err: err.message });
   }
@@ -15,22 +15,22 @@ router.post('/', async (req, res) => {
 // INDEX - GET - ReadAll
 router.get('/', async (req, res) => {
   try {
-    const foundPets = await Pet.find();
-    res.status(200).json(foundPets);
+    const foundAbaya = await Abaya.find();
+    res.status(200).json(foundAbaya);
   } catch (err) {
     res.status(500).json({ err: err.message });
   }
 });
 
-// READ One - GET - /pets/:petId
-router.get('/:petId', async (req, res) => {
+// READ One - GET - /abaya/:abayaId
+router.get('/:abayaId', async (req, res) => {
   try {
-    const foundPet = await Pet.findById(req.params.petId);
-    if (!foundPet) {
+    const foundAbaya = await Abaya.findById(req.params.abayaId);
+    if (!foundAbaya) {
       res.status(404);
-      throw new Error('Pet not found.');
+      throw new Error('Abaya not found.');
     }
-    res.status(200).json(foundPet);
+    res.status(200).json(foundAbaya);
   } catch (err) {
     if (res.statusCode === 404) {
       res.json({ err: err.message });
@@ -40,27 +40,27 @@ router.get('/:petId', async (req, res) => {
   }
 });
 
-// DELETE - DELETE - /pets/:petId
-router.delete('/:petId', async (req, res) => {
+// DELETE - DELETE - /abaya/:abayaId
+router.delete('/:abayaId', async (req, res) => {
   try {
-    const delPet = await Pet.findByIdAndDelete(req.params.petId);
-    res.status(200).json(delPet);
+    const delAbaya = await Abaya.findByIdAndDelete(req.params.abayaId);
+    res.status(200).json(delAbaya);
   } catch (err) {
     res.status(500).json({ err: err.message });
   }
 });
 
-// UPDATE - PUT - /pets/:petId
-router.put('/:petId', async (req, res) => {
+// UPDATE - PUT - /abaya/:abayaId
+router.put('/:abayaId', async (req, res) => {
   try {
-    const updatedPet = await Pet.findByIdAndUpdate(req.params.petId, req.body, {
+    const updatedAbaya = await Abaya.findByIdAndUpdate(req.params.abayaId, req.body, {
       new: true,
     });
-    if (!updatedPet) {
+    if (!updatedAbaya) {
       res.status(404);
-      throw new Error('Pet not found.');
+      throw new Error('Abaya not found.');
     }
-    res.status(200).json(updatedPet);
+    res.status(200).json(updatedAbaya);
   } catch (err) {
     if (res.statusCode === 404) {
       res.json({ err: err.message });
