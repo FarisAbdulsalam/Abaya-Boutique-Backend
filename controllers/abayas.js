@@ -1,4 +1,4 @@
-const Pet = require('../models/abaya.js');
+const Abaya = require('../models/abaya.js');
 const express = require('express');
 const router = express.Router();
 
