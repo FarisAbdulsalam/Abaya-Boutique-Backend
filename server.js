@@ -10,6 +10,7 @@ const cors = require('cors');
 // Import the controller file
 const abayaRouter = require('./controllers/abayas.js');
 const authRouter = require('./controllers/auth');
+const customAbayasRouter = require("./controllers/users.js");
 app.use(cors({ origin: 'http://localhost:5173' }));
 
 mongoose.connect(process.env.MONGODB_URI);
@@ -23,6 +24,7 @@ app.use(logger('dev'));
 
 app.use('/auth', authRouter);
 app.use('/abayas', abayaRouter);
+app.use('/custom-abayas', customAbayasRouter);
 
 app.listen(3001, () => {
   console.log('The express app is ready!');
