@@ -22,6 +22,7 @@ app.use(logger('dev'));
 
 
 app.use('/abayas', abayaRouter);
+app.use('/uploads', express.static('uploads')); // مسار الصور
 
 app.listen(3001, () => {
   console.log('The express app is ready!');
