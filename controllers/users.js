@@ -28,4 +28,26 @@ router.post("/:userId", async (req, res) => {
   }
 });
 
+router.delete("/:userId/:customAbayaId", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const customAbayaId = req.params.customAbayaId;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.json({ message: "User not found" });
+    }
+    const updatedCustomAbayas = user.customAbayas.filter(
+      (abaya) => abaya._id.toString() !== customAbayaId
+    );
+    user.customAbayas = updatedCustomAbayas;
+    await user.save();
+    res.json({
+      message: "Abaya deleted successfully",
+      customAbayas: user.customAbayas,
+    });
+  } catch (err) {
+    res.json({ err: err.message });
+  }
+});
+
 module.exports = router;
