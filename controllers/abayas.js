@@ -1,16 +1,86 @@
-const Abaya = require('../models/abaya.js');
+const Abaya = require('../models/abaya');
 const express = require('express');
 const router = express.Router();
+const multer = require('multer')
+const path = require('path')
+// -----------------------------------------------------------------------------------------
 
-// CREATE - POST - /abaya
-router.post('/', async (req, res) => {
-  try {
-    const createdAbaya = await Abaya.create(req.body);
-    res.status(201).json(createdAbaya);
-  } catch (err) {
-    res.status(500).json({ err: err.message });
+// import multer from 'multer';
+// import path from 'path';
+
+// إعداد مكان الحفظ واسم الملف
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // مجلد الحفظ
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); // اسم الملف مع التمديد
   }
 });
+
+// إعداد الفلتر لقبول الصور فقط
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+  if (allowedTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only images are allowed'), false);
+  }
+};
+
+const upload = multer({ storage: storage, fileFilter: fileFilter });
+
+// post to add new image
+
+
+// router.post('/', upload.single('image'), (req, res) => {
+//   if (!req.file) {
+//     return res.status(400).json({ error: 'No file uploaded or file type not supported.' });
+//   }
+
+//   const imagePath = `/uploads/${req.file.filename}`;
+//   res.status(200).json({ imageUrl: imagePath });
+// });
+
+
+
+// -----------------------------------------------------------------------------------------
+
+// // CREATE - POST - /abaya
+// router.post('/', async (req, res) => {
+//   try {
+//     const createdAbaya = await Abaya.create(req.body);
+//     res.status(201).json(createdAbaya);
+//   } catch (err) {
+//     res.status(500).json({ err: err.message });
+//   }
+// });
+
+
+
+// CREATE new Abaya with image upload
+router.post('/', upload.single('image'), async (req, res) => {
+  try {
+
+    const { title, price, size, quantity } = req.body;
+
+    const image = req.file ? req.file.filename : null;
+
+
+    const createdAbaya = await Abaya.create({
+      title,
+      price,
+      size,
+      quantity,
+      image
+    });
+
+    res.status(201).json(createdAbaya);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 
 // INDEX - GET - ReadAll
 router.get('/', async (req, res) => {

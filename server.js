@@ -8,7 +8,7 @@ const logger = require('morgan');
 const cors = require('cors');
 
 // Import the controller file
-const abayaRouter = require('./controllers/abayas.js');
+const abayaRouter = require('./controllers/abayas');
 const authRouter = require('./controllers/auth');
 const userRouter = require("./controllers/users.js");
 app.use(cors({ origin: 'http://localhost:5173' }));
@@ -23,7 +23,8 @@ app.use(express.json());
 app.use(logger('dev'));
 
 app.use('/auth', authRouter);
-app.use('/abayas', abayaRouter);
+// app.use('/abayas', abayaRouter);
+app.use('/uploads', express.static('uploads')); // مسار الصور
 app.use('/', userRouter);
 
 app.listen(3001, () => {
