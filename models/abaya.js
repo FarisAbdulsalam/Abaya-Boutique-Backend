@@ -10,7 +10,7 @@ const abayaSchema = mongoose.Schema({
     min: 0,
     required: true,
   },
-  quentity: {
+  quantity: {
     type: Number,
     min: 0,
     required: true
