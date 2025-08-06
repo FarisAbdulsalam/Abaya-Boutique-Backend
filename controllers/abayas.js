@@ -1,12 +1,12 @@
-const Pet = require('../models/abaya.js');
+const Abaya = require('../models/abaya');
 const express = require('express');
 const router = express.Router();
-import Abaya from '../models/abaya.js';
-
+const multer = require('multer')
+const path = require('path')
 // -----------------------------------------------------------------------------------------
 
-import multer from 'multer';
-import path from 'path';
+// import multer from 'multer';
+// import path from 'path';
 
 // إعداد مكان الحفظ واسم الملف
 const storage = multer.diskStorage({
