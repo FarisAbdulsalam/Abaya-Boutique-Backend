@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 
-router.get("/:userId", async (req, res) => {
+router.get("/custom-abayas/:userId", async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
     if (!user) {
@@ -14,7 +14,7 @@ router.get("/:userId", async (req, res) => {
   }
 });
 
-router.post("/:userId", async (req, res) => {
+router.post("/custom-abayas/:userId", async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
     if (!user) {
@@ -28,7 +28,7 @@ router.post("/:userId", async (req, res) => {
   }
 });
 
-router.delete("/:userId/:customAbayaId", async (req, res) => {
+router.delete("/custom-abayas/:userId/:customAbayaId", async (req, res) => {
   try {
     const userId = req.params.userId;
     const customAbayaId = req.params.customAbayaId;
