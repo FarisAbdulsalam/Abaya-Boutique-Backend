@@ -14,7 +14,8 @@ const storage = multer.diskStorage({
     cb(null, 'uploads/'); // مجلد الحفظ
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)); // اسم الملف مع التمديد
+     const cleanName = file.originalname.replace(/\s+/g, '_').replace(/[^\w.-]/gi, '');
+     cb(null, Date.now() + '-' + cleanName); // اسم الملف مع التمديد
   }
 });
 
@@ -64,7 +65,7 @@ router.post('/', upload.single('image'), async (req, res) => {
 
     const { title, price, size, quantity } = req.body;
 
-    const image = req.file ? req.file.filename : null;
+    const image = req.file ? `/uploads/${req.file.filename}`: null;
 
 
     const createdAbaya = await Abaya.create({
