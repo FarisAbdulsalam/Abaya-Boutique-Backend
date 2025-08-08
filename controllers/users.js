@@ -50,17 +50,4 @@ router.delete("/custom-abayas/:userId/:customAbayaId", async (req, res) => {
   }
 });
 
-router.get('/:userId/cart', async (req, res) => {
-  try {
-    const userId = req.params.userId;
-    const user = await User.findById(userId).populate('cart.abaya');
-    res.json({
-      cart: user.cart,
-      cartTotal: user.cartTotal
-    });
-  } catch (err) {
-    res.json({ err: err.message });
-  }
-});
-
 module.exports = router;
