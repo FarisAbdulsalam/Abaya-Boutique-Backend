@@ -38,4 +38,23 @@ router.get("/:userId/cart", async (req, res) => {
   }
 });
 
+router.post("/custom-abaya/:userId/add-to-cart", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const user = await User.findById(userId);
+    const { size, material, accessory, colour, style, comment } = req.body;
+    const price = 35;
+    const customAbaya = { size, material, accessory, colour, style, comment };
+    user.cartTotal += price;
+    user.cart.push({ type: "custom", customAbaya: customAbaya, price: price });
+    res.json({
+      message: "Abaya added to cart",
+      cartItem: user.cart[user.cart.length - 1],
+      cartTotal: user.cartTotal,
+    });
+  } catch (err) {
+    res.json({ err: err.message });
+  }
+});
+
 module.exports = router;
