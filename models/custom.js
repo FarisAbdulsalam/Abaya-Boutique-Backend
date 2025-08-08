@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 const customAbayaSchema = new mongoose.Schema({
-  size: String,
-  material: String,
-  accessory: String,
-  colour: String,
-  style: String,
+  size: { type: String, required: true },
+  material: { type: String, required: true },
+  accessory: { type: String, required: true },
+  colour: { type: String, required: true },
+  style: { type: String, required: true },
   comment: String,
-  price: Number
+  price: { type: Number, required: true }
 });
 
 module.exports = customAbayaSchema;
