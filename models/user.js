@@ -7,5 +7,9 @@ const userSchema = new mongoose.Schema({
   password: String,
   customAbayas: [customAbayaSchema],
   cart: [cartSchema],
+  cartTotal: {
+    type: Number,
+    default: 0
+  }
 });
 module.exports=mongoose.model("user", userSchema)
