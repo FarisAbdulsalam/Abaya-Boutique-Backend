@@ -72,12 +72,13 @@ router.post('/', upload.single('image'), async (req, res) => {
       title,
       price,
       size,
-      quantity,
+      // quantity,
       image
     });
 
     res.status(201).json(createdAbaya);
   } catch (err) {
+    console.log(err)
     res.status(500).json({ error: err.message });
   }
 });
@@ -133,6 +134,7 @@ router.put('/:abayaId', async (req, res) => {
     }
     res.status(200).json(updatedAbaya);
   } catch (err) {
+    console.log(err)
     if (res.statusCode === 404) {
       res.json({ err: err.message });
     } else {
