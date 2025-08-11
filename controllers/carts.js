@@ -15,6 +15,7 @@ router.post("/:abayaId/:userId/add-to-cart", async (req, res) => {
     user.cartTotal += price;
     user.customAbayas = user.customAbayas.filter((custom) => custom.price);
     await user.save();
+    await user.populate("cart.abaya");
     res.json({
       message: "Abaya added to cart",
       cartItem: user.cart[user.cart.length - 1],
@@ -29,7 +30,8 @@ router.get("/:userId/cart", async (req, res) => {
   try {
     const userId = req.params.userId;
     const user = await User.findById(userId).populate("cart.abaya");
-    resjson({
+    if (!user) return res.json({ message: "User not found" });
+    res.json({
       cart: user.cart,
       cartTotal: user.cartTotal,
     });
@@ -47,9 +49,34 @@ router.post("/custom-abaya/:userId/add-to-cart", async (req, res) => {
     const customAbaya = { size, material, accessory, colour, style, comment };
     user.cartTotal += price;
     user.cart.push({ type: "custom", customAbaya: customAbaya, price: price });
+    await user.save();
     res.json({
       message: "Abaya added to cart",
       cartItem: user.cart[user.cart.length - 1],
+      cartTotal: user.cartTotal,
+    });
+  } catch (err) {
+    res.json({ err: err.message });
+  }
+});
+
+router.delete("/:userId/cart/:abayaId", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    const abayaId = req.params.abayaId;
+    if (!user) {
+      return res.json("User not found");
+    }
+    const abayaIndex = user.cart.findIndex(
+      (abaya) => abaya._id.toString() === abayaId
+    );
+    user.cartTotal -= user.cart[abayaIndex].price;
+    user.cart.splice(abayaIndex, 1);
+    await user.save();
+    await user.populate("cart.abaya");
+    res.json({
+      message: "Abaya removed from cart",
+      cart: user.cart,
       cartTotal: user.cartTotal,
     });
   } catch (err) {
