@@ -15,7 +15,7 @@ router.post("/sign-up", async (req, res) => {
       username: req.body.username,
       password: hashedPassword,
     });
-    const payload = { username: newUser.username, _id: newUser._id };
+    const payload = { username: newUser.username, _id: newUser._id, admin: newUser.admin };
     const token = jwt.sign({ payload }, process.env.JWT_SECRET);
     res.json({ token });
   } catch (err) {
@@ -37,7 +37,7 @@ router.post("/sign-in", async (req, res) => {
     if (!isPassCorrect) {
       return res.json({ message: "Incorrect password" });
     }
-    const payload = { username: user.username, id: user._id };
+    const payload = { username: user.username, id: user._id, admin: user.admin };
     const token = jwt.sign({ payload }, process.env.JWT_SECRET);
 
     res.json({ token });

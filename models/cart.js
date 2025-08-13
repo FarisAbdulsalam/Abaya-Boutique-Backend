@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
+const customAbaya = require("./custom.js");
 
 const cartSchema = new mongoose.Schema({
   abaya: { type: mongoose.Schema.Types.ObjectId, ref: "Abaya" },
-  priceTotal: Number,
+  customAbaya: { type: customAbaya },
+  price: { type: Number, required: true },
+  type: { type: String, enum: ["standard", "custom"], required: true },
 });
 
 module.exports = cartSchema;

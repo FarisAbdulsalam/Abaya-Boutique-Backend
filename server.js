@@ -12,6 +12,7 @@ app.use(cors());
 const abayaRouter = require('./controllers/abayas');
 const authRouter = require('./controllers/auth');
 const userRouter = require("./controllers/users.js");
+const cartRouter = require("./controllers/carts.js");
 
 mongoose.connect(process.env.MONGODB_URI);
 
@@ -26,6 +27,7 @@ app.use('/auth', authRouter);
 app.use('/abayas', abayaRouter);
 app.use('/uploads', express.static('uploads')); // مسار الصور
 app.use('/', userRouter);
+app.use('/', cartRouter);
 
 app.listen(3001, () => {
   console.log('The express app is ready!');
