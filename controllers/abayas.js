@@ -8,7 +8,7 @@ const path = require('path')
 // import multer from 'multer';
 // import path from 'path';
 
-// إعداد مكان الحفظ واسم الملف
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/'); // مجلد الحفظ
@@ -123,24 +123,25 @@ router.delete('/:abayaId', async (req, res) => {
 });
 
 // UPDATE - PUT - /abaya/:abayaId
-router.put('/:abayaId', async (req, res) => {
-  try {
-    const updatedAbaya = await Abaya.findByIdAndUpdate(req.params.abayaId, req.body, {
-      new: true,
-    });
-    if (!updatedAbaya) {
-      res.status(404);
-      throw new Error('Abaya not found.');
-    }
-    res.status(200).json(updatedAbaya);
-  } catch (err) {
-    console.log(err)
-    if (res.statusCode === 404) {
-      res.json({ err: err.message });
-    } else {
-      res.status(500).json({ err: err.message });
-    }
+router.put("/:id", upload.single("image"), async (req, res) => {
+  const abaya = await Abaya.findById(req.params.id);
+  if (!abaya) return res.status(404).json({ err: "Not found" });
+
+ 
+  const updatedData = { ...req.body };
+
+ 
+  if (req.file) {
+    updatedData.image = `/uploads/${req.file.filename}`;
+  } else {
+    updatedData.image = abaya.image; // احتفظ بالصورة القديمة
   }
+
+  const updatedAbaya = await Abaya.findByIdAndUpdate(req.params.id, updatedData, {
+    new: true,
+  });
+
+  res.json(updatedAbaya);
 });
 
 
