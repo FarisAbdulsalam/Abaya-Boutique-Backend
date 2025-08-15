@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const abayaSchema = mongoose.Schema({
   title: {
@@ -10,11 +10,6 @@ const abayaSchema = mongoose.Schema({
     min: 0,
     required: true,
   },
-  // quantity: {
-  //   type: Number,
-  //   min: 0,
-  //   required: true
-  // },
   size: {
     type: String,
     required: true,
@@ -25,5 +20,5 @@ const abayaSchema = mongoose.Schema({
   },
 });
 
-const Abaya = mongoose.model('Abaya', abayaSchema);
+const Abaya = mongoose.model("Abaya", abayaSchema);
 module.exports = Abaya;
