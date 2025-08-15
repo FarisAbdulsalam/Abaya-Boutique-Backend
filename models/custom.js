@@ -7,7 +7,7 @@ const customAbayaSchema = new mongoose.Schema({
   colour: { type: String, required: true },
   style: { type: String, required: true },
   comment: String,
-  price: { type: Number, required: true }
+  price: { type: Number, required: true },
 });
 
 module.exports = customAbayaSchema;
