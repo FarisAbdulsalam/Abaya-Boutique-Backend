@@ -104,6 +104,12 @@ router.put("/:abayaId", async (req, res) => {
       res.status(500).json({ err: err.message });
     }
   }
+
+  const updatedAbaya = await Abaya.findByIdAndUpdate(req.params.id, updatedData, {
+    new: true,
+  });
+
+  res.json(updatedAbaya);
 });
 
 module.exports = router;
